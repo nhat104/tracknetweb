@@ -1,4 +1,5 @@
 import { Box, Button, CircularProgress, Grid, Input, Typography } from '@mui/material';
+import logApi from 'api/logApi';
 import axios from 'axios';
 import ShowAlert from 'components/Alert';
 import { useState } from 'react';
@@ -43,9 +44,14 @@ export default function TrackNet() {
         },
       });
       console.log(res.data);
+      await logApi.add(imageFile.url ? 'TrackNet image' : 'TrackNet video');
       setLoading(false);
       setTrackResult(res.data?.image_path || res.data?.video_path || '');
+      if (res.data?.message) {
+        setAlert({ message: res.data.message, type: 'error' });
+      }
     } catch (error) {
+      setLoading(false);
       setAlert({ message: error.message, type: 'error' });
     }
   };

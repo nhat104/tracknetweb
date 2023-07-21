@@ -16,13 +16,10 @@ def hello():
 #     return "hello"
 
 @app.route("/uploader", methods=["POST"])
-# @cross_origin(supports_credentials=True)
 def upload_file():
     f = request.files['file']
-    # f.save("service/tennis.mp4")
     filename = f"service/{f.filename}"
     f.save(filename)
-    # filename = f.filename
     
     print(filename)
     print("hello")

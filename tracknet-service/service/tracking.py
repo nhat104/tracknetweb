@@ -2,23 +2,12 @@ import torch
 import torchvision
 import cv2 as cv
 import numpy as np
-from .TrackNet import TrackNet
 from argparse import Namespace
-from ultralytics import YOLO
 from PIL import Image
+from ultralytics import YOLO
 
 model_path = "service/model_weight/best-yolo.pt"
 model = YOLO(model_path)
-# opt = Namespace(
-#     **{
-#         "grayscale": False,
-#         "sequence_length": 1,
-#         "dropout": 0,
-#         "one_output_frame": False,
-#     }
-# )
-# model = TrackNet(opt)
-# model.eval()
 
 
 def inference(model, img, image_size=(360, 640)):
@@ -61,9 +50,6 @@ def interpolation_center_point(history_centers):
   
 
 def tracking_service(filename):
-    # model = TrackNet(opt)
-    # model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
-    # model.eval()
     batch_size = 64
     
     cap = cv.VideoCapture(filename)
@@ -131,29 +117,6 @@ def tracking_service(filename):
                     output_frame = cv.circle(frame, center, 5, (0, 255, 255), 2)
                     out.write(output_frame)
             frames = []
-            
-    # centers = interpolation_center_point(bboxes)
-    # cap.release()
-    
-    
-    # cap = cv.VideoCapture(filename)
-         
-    # i = 0
-    # while True:
-    #     ret, frame = cap.read()
-    #     if not ret:
-    #         print(f"Hello {i}")
-    #         break
-        
-    #     center = centers[i]
-    #     if center == ():
-    #         continue
-        
-    #     center = int(center[0]), int(center[1])
-        
-    #     output_frame = cv.circle(frame, center, 5, (0, 255, 255), 2)
-    #     out.write(output_frame)
-    #     i += 1
     
     out.release()
     print(f"{i} done")

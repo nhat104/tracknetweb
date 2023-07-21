@@ -20,9 +20,8 @@ export const createLog = async (req, res) => {
   const { action } = req.body;
   try {
     const user = await User.findOne({ where: { id: req.jwtDecoded.data.id } });
-    console.log(user);
-    // const log = await user.createLog({ action });
-    // return ResponseJson.success(res, log);
+    const log = await user.createLog({ action });
+    return ResponseJson.success(res, log);
   } catch (error) {
     return ResponseJson.error(res, error);
   }
